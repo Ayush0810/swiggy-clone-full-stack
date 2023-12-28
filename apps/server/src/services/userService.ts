@@ -53,6 +53,8 @@ export default class UserService {
 			const jwtToken = this.generateToken({
 				//@ts-ignore
 				id: user.id,
+				//@ts-ignore
+				isOwner: user.isOwner,
 			});
 			return jwtToken;
 		} catch (error) {
@@ -167,7 +169,7 @@ export default class UserService {
 	 * @returns the updated user object.
 	 */
 	//@ts-ignore
-	async update(data,id) {
+	async update(data, id) {
 		try {
 			//@ts-ignore
 			const user = await this.userRepository.findById(id);
@@ -323,6 +325,30 @@ export default class UserService {
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log("something went wrong in service layer : ", error.message);
+				throw { error };
+			}
+		}
+	}
+	//@ts-ignore
+	async addAddress(data, id) {
+		try {
+			const updateUserAddress = await prisma.address.create({
+				data: {
+					...data,
+					latitude: 0.0,
+					longitude: 0.0,
+					radius: 0,
+					User: {
+						connect: {
+							id: id,
+						},
+					},
+				},
+			});
+			return updateUserAddress;
+		} catch (error) {
+			if (error instanceof Error) {
+				console.log("something went wrong in service layer", error.message);
 				throw { error };
 			}
 		}

@@ -14,9 +14,10 @@ const userService = new UserService();
  * response data, and a message.
  */
 export const signup = async (req: Request, res: Response) => {
-	const { email, phone, password } = req.body;
+	const {name, email, phone, password } = req.body;
 	try {
 		const response = await userService.create({
+			name,
 			email,
 			phone,
 			password,
@@ -173,11 +174,11 @@ export const getUser = async (req: Request, res: Response) => {
  * success, message, and data.
  */
 export const updateAccountDetails = async (req: Request, res: Response) => {
-	const { email, phone } = req.body;
+	const { email, phone} = req.body;
 	try {
 		//@ts-ignore
 		const response = await userService.update(
-			{ email, phone },
+			{ email, phone  },
 			//@ts-ignore
 			req.user.id
 		);
@@ -226,3 +227,32 @@ export const deleteAccount = async (req: Request, res: Response) => {
 	}
 };
 
+
+export const getAllUser =async (req:Request , res:Response) => {
+	return res.status(200).json({
+		success:true,
+		message:"got all user"
+	})
+}
+
+
+export const addAddress = async(req:Request , res:Response) =>{
+	const {name ,floor , location ,city , state , nearBy , pincode } = req.body
+	try {
+		const data = {name ,floor , location ,city , state , nearBy , pincode }
+		//@ts-ignore
+		const user = await userService.addAddress(data, req.user.id)
+		return res.status(200).json({
+			success:true,
+			message:"data added successfully"
+			
+		})
+	} catch (error) {
+		if(error instanceof Error){
+			return res.status(500).json({
+				success:false,
+				message:error.message
+			})
+		}
+	}
+}
