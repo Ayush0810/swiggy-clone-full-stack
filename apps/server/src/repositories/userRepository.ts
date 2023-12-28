@@ -133,17 +133,17 @@ export default class UserRespository {
 	async findToken(resetToken:string) {
 		try {
 			const user = await prisma.user.findFirst({where:{
-
 					forgotPasswordToken: resetToken,
 				},}
 			);
-			console.log("user", user)
 			return user;
 		} catch (error) {
 			console.log("something went wrong at repository layer", error);
 			throw { error };
 		}
 	}
+
+	
 }
 
 
