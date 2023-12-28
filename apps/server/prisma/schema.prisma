@@ -12,32 +12,32 @@ model User {
   name                 String
   email                String     @unique
   password             String
-  phone                Int        @unique
+  phone                BigInt        @unique
   otp                  String?
   isOwner              Boolean    @default(false)
   orders               Order[]
-  address              Address[]
+  address              Address[]  
   ownedRestaurant      Restaurant?
   forgotPasswordToken  String?
   forgotPasswordExpiry DateTime?
   createdAt            DateTime   @default(now())
   updatedAt            DateTime   @updatedAt
-  ownedRestaurantId   String     @unique @db.Uuid
+  ownedRestaurantId   String?     @unique @db.Uuid
 }
 
 model Address {
   id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name      AddressName
-  latitude  Float
-  longitude Float
-  radius    Int
+  latitude  Float?
+  longitude Float?
+  radius    Int?
   floor     String
   location  String
   city      String
   state     String
   nearBy    String?
   pincode   Int
-  User      User?       @relation(fields: [userId], references: [id])
+  User      User       @relation(fields: [userId], references: [id])
   userId    String      @db.Uuid
 }
 

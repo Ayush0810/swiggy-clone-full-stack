@@ -7,14 +7,14 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "phone" INTEGER NOT NULL,
+    "phone" BIGINT NOT NULL,
     "otp" TEXT,
     "isOwner" BOOLEAN NOT NULL DEFAULT false,
     "forgotPasswordToken" TEXT,
     "forgotPasswordExpiry" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "ownedRestaurantId" UUID NOT NULL,
+    "ownedRestaurantId" UUID,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -23,9 +23,9 @@ CREATE TABLE "User" (
 CREATE TABLE "Address" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" "AddressName" NOT NULL,
-    "latitude" DOUBLE PRECISION NOT NULL,
-    "longitude" DOUBLE PRECISION NOT NULL,
-    "radius" INTEGER NOT NULL,
+    "latitude" DOUBLE PRECISION,
+    "longitude" DOUBLE PRECISION,
+    "radius" INTEGER,
     "floor" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "city" TEXT NOT NULL,

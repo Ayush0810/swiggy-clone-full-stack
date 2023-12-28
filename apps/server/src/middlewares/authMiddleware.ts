@@ -48,3 +48,28 @@ export const verifyUser = async (req:Request, res:Response,next:NextFunction) =>
 	}
 };
 
+/**
+ * The function checks if the user is an owner and returns an error message if not.
+ * @param {Request} req - The `req` parameter is the request object that contains information about the
+ * incoming HTTP request.
+ * @param {Response} res - The `res` parameter is the response object that is used to send the response
+ * back to the client. It contains methods and properties that allow you to manipulate the response,
+ * such as setting the status code, sending JSON data, or redirecting the client to a different URL.
+ * @param {NextFunction} next - The `next` parameter is a function that is used to pass control to the
+ * next middleware function in the request-response cycle. It is typically used when you want to move
+ * to the next middleware function after performing some operations in the current middleware function.
+ * @returns In the code snippet, if the condition `if(!req.user.isOwner)` is true, then a JSON response
+ * is returned with a status code of 404 and a message of "not authorized" and success set to false. If
+ * the condition is false, the `next()` function is called, indicating that the user is authorized and
+ * the execution can continue to the next middleware or route handler.
+ */
+export const isOwner = async( req:Request, res:Response , next :NextFunction)=>{
+	//@ts-ignore
+	if(!req.user.isOwner){
+		return res.status(404).json({
+			message:"not authorized",
+			success:false
+		})
+	}
+	next()
+}
